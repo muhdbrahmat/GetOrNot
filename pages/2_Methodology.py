@@ -46,7 +46,7 @@ st.markdown(
     "of meaning. This is used because it supports semantic similarity search rather than keyword-only matching.\n"
     "5. **Vector storage:** LangChain and Chroma store the chunks and embeddings for similarity search. "
     "Chroma provides a lightweight local vectorstore suitable for this prototype.\n"
-    "6. **Retrieval:** the app retrieves the six most relevant chunks for each question. Six is used as "
+    "6. **Retrieval:** the app retrieves the ten most relevant chunks for each question. Ten is used as "
     "a practical balance: it provides relevant scheme context without overloading the model with excessive text.\n"
     "7. **Augmented generation:** retrieved text is added to a grounded system prompt before calling "
     "`gpt-4o-mini`. This model is used because it provides a suitable balance of response quality, cost, "
