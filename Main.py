@@ -15,6 +15,20 @@ from pypdf import PdfReader
 from app_auth import require_authentication
 
 load_dotenv(Path(__file__).with_name(".env"))
+
+
+def get_openai_api_key() -> str:
+  try:
+    if "OPENAI_API_KEY" in st.secrets:
+      return st.secrets["OPENAI_API_KEY"]
+  except Exception:
+    pass
+
+  api_key = os.getenv("OPENAI_API_KEY")
+  if not api_key:
+    raise ValueError("OPENAI_API_KEY was not found in .env or Streamlit Secrets.")
+  return api_key
+
 REFERENCE_PDF_DIR = Path(__file__).with_name("reference_docs")
 MODEL_NAME = "gpt-4o-mini"
 TEMPERATURE = 0.2
@@ -46,7 +60,7 @@ def load_and_split(pdf_path: Path):
 def build_vectorstore(_chunks: list[Document], chunks_key: str) -> Chroma:
   embeddings = OpenAIEmbeddings(
     model="text-embedding-3-small",
-    api_key=os.environ["OPENAI_API_KEY"],
+    api_key=get_openai_api_key(),
   )
   return Chroma.from_documents(_chunks, embeddings)
 
@@ -168,9 +182,7 @@ if prompt:
     st.write(prompt)
 
   try:
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-      raise ValueError("OPENAI_API_KEY was not found in the environment.")
+    api_key = get_openai_api_key()
 
     client = OpenAI(api_key=api_key)
     if "vectorstore" in st.session_state:
