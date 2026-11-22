@@ -32,7 +32,7 @@ def get_openai_api_key() -> str:
 REFERENCE_PDF_DIR = Path(__file__).with_name("reference_docs")
 MODEL_NAME = "gpt-4o-mini"
 TEMPERATURE = 0.2
-RETRIEVAL_K = 6
+RETRIEVAL_K = 10
 
 st.set_page_config(page_title="Get or Not?", page_icon="🤖")
 require_authentication()
